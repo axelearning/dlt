@@ -61,6 +61,10 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@master
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
 
       - name: Install tzdata on windows
         run: |
@@ -72,7 +76,6 @@ jobs:
           copy tzdata %USERPROFILE%\Downloads\tzdata
           curl https://raw.githubusercontent.com/unicode-org/cldr/master/common/supplemental/windowsZones.xml --output %USERPROFILE%\Downloads\tzdata\windowsZones.xml
         if: runner.os == 'Windows'
-
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
