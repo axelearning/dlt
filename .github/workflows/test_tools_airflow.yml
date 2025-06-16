@@ -37,5 +37,5 @@ jobs:
         run: poetry install --no-interaction --with airflow --with pipeline -E duckdb -E parquet --with sentry-sdk
 
       - run: |
-          poetry run pytest tests/helpers/airflow_tests
+          pytest tests/helpers/airflow_tests
         name: Run tests

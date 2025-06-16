@@ -30,7 +30,7 @@ jobs:
             needs_weaviate: true
             needs_qdrant: true
             needs_ftp: true
-            post_install_commands: "poetry run pip install sqlalchemy==2.0.18" # minimum version required by `pyiceberg`
+            post_install_commands: "uv run pip install sqlalchemy==2.0.18" # minimum version required by `pyiceberg`
 
           - name: postgres, duckdb and dummy with cli commands
             destinations: "[\"postgres\", \"duckdb\", \"dummy\"]"
@@ -38,7 +38,7 @@ jobs:
             extras: "postgres postgis parquet duckdb cli filesystem"
             needs_postgres: true
             with: ",adbc"
-            additional_tests: "poetry run pytest tests/cli"
+            additional_tests: "pytest tests/cli"
 
 
           # Clickhouse OSS (TODO: test with minio s3)
@@ -64,7 +64,7 @@ jobs:
             filesystem_drivers: "[\"memory\", \"file\"]"
             extras: "sqlalchemy filesystem parquet"
             needs_mysql: true
-            post_install_commands: "poetry run pip install pymysql && poetry run pip install sqlalchemy==1.4"
+            post_install_commands: "uv run pip install pymysql && uv run pip install sqlalchemy==1.4"
 
           # SQLAlchemy 2.0 (same as above but with sqlalchemy 2.0)
           - name: sqlalchemy
@@ -72,7 +72,7 @@ jobs:
             filesystem_drivers: "[\"memory\", \"file\"]"
             extras: "sqlalchemy filesystem parquet"
             needs_mysql: true
-            post_install_commands: "poetry run pip install pymysql && poetry run pip install sqlalchemy==2.0"
+            post_install_commands: "uv run pip install pymysql && uv run pip install sqlalchemy==2.0"
 
     env:
       ACTIVE_DESTINATIONS: ${{ matrix.destinations }}
@@ -191,7 +191,7 @@ jobs:
       - name: Run tests Linux
         run: |
           eval "$(ssh-agent -s)"
-          poetry run pytest tests/load --ignore tests/load/sources --ignore tests/load/filesystem_sftp
+          pytest tests/load --ignore tests/load/sources --ignore tests/load/filesystem_sftp
 
       - name: Run additional tests
         run: ${{ matrix.additional_tests }}

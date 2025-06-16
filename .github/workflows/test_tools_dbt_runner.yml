@@ -54,13 +54,13 @@ jobs:
         run: pwd && echo "$DLT_SECRETS_TOML" > tests/.dlt/secrets.toml
 
       - run: |
-          poetry run pytest tests/helpers/dbt_tests -k '(not venv)'
+          pytest tests/helpers/dbt_tests -k '(not venv)'
         name: Run dbt tests
 
       - name: Remove dbt-core
         # install dlt with postgres support
-        run: poetry run pip uninstall dbt-core -y
+        run: uv run pip uninstall dbt-core -y
 
       - run: |
-          poetry run pytest tests/helpers/dbt_tests --ignore=tests/helpers/dbt_tests/local -k '(not local)'
+          pytest tests/helpers/dbt_tests --ignore=tests/helpers/dbt_tests/local -k '(not local)'
         name: Run dbt runner with venv - Linux/MAC

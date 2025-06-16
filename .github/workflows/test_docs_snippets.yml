@@ -80,7 +80,7 @@ jobs:
       #     key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dlt-plus nightly devel build without cache
-        run: poetry run pip install --upgrade --force-reinstall --no-cache-dir --pre dlt-plus
+        run: uv run pip install --upgrade --force-reinstall --no-cache-dir --pre dlt-plus
 
       - name: run docs preprocessor
         run: make preprocess-docs
@@ -97,7 +97,7 @@ jobs:
 
       # NOTE: there seems to be a conflict between pydoclint and pydoc-markdown dependencies
       - name: Force uninstall pydoclint
-        run: poetry run pip uninstall pydoclint -y
+        run: uv run pip uninstall pydoclint -y
 
       - name: Run linter and tests on snippets
         run: make lint-and-test-snippets

@@ -74,14 +74,14 @@ jobs:
 
 
       - name: Install dlt-plus nightly devel build without cache
-        run: poetry run pip install --upgrade --force-reinstall --no-cache-dir ${{ matrix.plus_dep }}
+        run: uv run pip install --upgrade --force-reinstall --no-cache-dir ${{ matrix.plus_dep }}
 
       - name: Run tests
-        run: poetry run pytest tests/plus
+        run: pytest tests/plus
         if: matrix.os == 'ubuntu-latest'
 
       - name: Run tests on mac on win without mssql driver
-        run: poetry run pytest tests/plus -m "not mssql"
+        run: pytest tests/plus -m "not mssql"
         if: matrix.os == 'macos-latest' || matrix.os == 'windows-latest'
 
   matrix_job_required_check:

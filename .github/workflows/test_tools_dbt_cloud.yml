@@ -54,5 +54,5 @@ jobs:
         run: poetry install --no-interaction
 
       - run: |
-          poetry run pytest tests/helpers/dbt_cloud_tests -k '(not venv)'
+          pytest tests/helpers/dbt_cloud_tests -k '(not venv)'
         name: Run dbt cloud - Linux/MAC
