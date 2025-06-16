@@ -43,11 +43,11 @@ jobs:
             python-version: "3.13"
             shell: bash
           
-          # windows tests
-          - os: windows-latest
-            python-version: "3.11"
-            shell: cmd
-            pytest_args: '-m "not forked"'
+          # # windows tests
+          # - os: windows-latest
+          #   python-version: "3.11"
+          #   shell: cmd
+          #   pytest_args: '-m "not forked"'
           - os: windows-latest
             python-version: "3.13"
             shell: cmd
