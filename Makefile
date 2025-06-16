@@ -37,14 +37,14 @@ help:
 install-uv:
 ifneq ($(VIRTUAL_ENV),)
 	$(error you cannot be under virtual environment $(VIRTUAL_ENV))
-endif
+endif u
 	curl -LsSf https://astral.sh/uv/install.sh | sh
 
 has-uv:
 	uv --version
 
 dev: has-uv
-	uv sync --all-extras --group docs --group dev --group providers --group pipeline --group sources --group sentry-sdk --group ibis --group marimo
+	uv sync --all-extras --group docs --group dev --group providers --group pipeline --group sources --group sentry-sdk --group ibis --group adbc
 
 
 dev-airflow: has-uv
@@ -133,7 +133,8 @@ test-build-images: build-library
 	# filter out libs that need native compilation
 	grep `cat compiled_packages.txt` _gen_requirements.txt > compiled_requirements.txt
 	docker build -f deploy/dlt/Dockerfile.airflow --build-arg=COMMIT_SHA="$(shell git log -1 --pretty=%h)" --build-arg=IMAGE_VERSION="$(shell uv version)" .
-	docker build -f deploy/dlt/Dockerfile --build-arg=COMMIT_SHA="$(shell git log -1 --pretty=%h)" --build-arg=IMAGE_VERSION="$(shell uv version)" .
+    # enable when we upgrade arrow to 20.x
+    # docker build -f deploy/dlt/Dockerfile --build-arg=COMMIT_SHA="$(shell git log -1 --pretty=%h)" --build-arg=IMAGE_VERSION="$(shell uv version)" .
 
 preprocess-docs:
 	# run docs preprocessing to run a few checks and ensure examples can be parsed
@@ -145,6 +146,7 @@ start-test-containers:
 	docker compose -f "tests/load/weaviate/docker-compose.yml" up -d
 	docker compose -f "tests/load/filesystem_sftp/docker-compose.yml" up -d
 	docker compose -f "tests/load/sqlalchemy/docker-compose.yml" up -d
+	docker compose -f "tests/load/clickhouse/docker-compose.yml" up -d
 
 update-cli-docs:
 	uv run dlt --debug render-docs docs/website/docs/reference/command-line-interface.md
