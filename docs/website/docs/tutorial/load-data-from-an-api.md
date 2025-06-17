@@ -514,7 +514,7 @@ def github_source_with_token(
 
 
 pipeline = dlt.pipeline(
-    pipeline_name="github_with_source_secrets",
+    pipeline_name="github_source_with_token",
     destination="duckdb",
     dataset_name="github_data",
 )
@@ -562,7 +562,7 @@ pipeline = dlt.pipeline(
     destination="duckdb",
     dataset_name="github_data",
 )
-load_info = pipeline.run(github_source())
+load_info = pipeline.run(github_source_with_token_and_repo())
 ```
 
 Next, create a `.dlt/config.toml` file in the project folder and add the `repo_name` parameter to it:
